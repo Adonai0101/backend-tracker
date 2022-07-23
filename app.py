@@ -10,15 +10,15 @@ from router.historial import historial
 #Database
 from db import mongo
 #leer variables de entorno
-from decouple import config
-
+from dotenv import load_dotenv
+from os import getenv
 
 app = Flask(__name__)
 app.secret_key = "SUpersecretoalvalvPutoelqueloleaporqessecreto"
 CORS(app)
 
 #Mongo db
-app.config['MONGO_URI'] = config('URL_DB')
+app.config['MONGO_URI'] = getenv("URL_DB")
 mongo.init_app(app)
 
 
@@ -29,7 +29,11 @@ app.register_blueprint(historial,url_prefix='/historial')
 
 @app.route('/')
 def index():
+    print('calando las .env')
+    DB = getenv("URL_DB")
+    print(DB)
     return "works desde una short"
 
 if __name__ == '__main__':
+    load_dotenv()
     app.run(debug=True,host="0.0.0.0")
