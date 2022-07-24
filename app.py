@@ -15,8 +15,8 @@ from os import getenv
 
 app = Flask(__name__)
 app.secret_key = "SUpersecretoalvalvPutoelqueloleaporqessecreto"
+load_dotenv()
 CORS(app)
-
 #Mongo db
 app.config['MONGO_URI'] = getenv("URL_DB")
 mongo.init_app(app)
