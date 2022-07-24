@@ -18,7 +18,7 @@ app.secret_key = "SUpersecretoalvalvPutoelqueloleaporqessecreto"
 load_dotenv()
 CORS(app)
 #Mongo db
-app.config['MONGO_URI'] = getenv("URL_DB")
+app.config['MONGO_URI'] = "mongodb://local:LocalDB@cluster0-shard-00-00.eqf28.mongodb.net:27017,cluster0-shard-00-01.eqf28.mongodb.net:27017,cluster0-shard-00-02.eqf28.mongodb.net:27017/tracker?ssl=true&replicaSet=atlas-1154or-shard-0&authSource=admin&retryWrites=true&w=majority"
 mongo.init_app(app)
 
 
@@ -30,8 +30,6 @@ app.register_blueprint(historial,url_prefix='/historial')
 @app.route('/')
 def index():
     print('calando las .env')
-    DB = getenv("URL_DB")
-    print(DB)
     return "works desde una short"
 
 if __name__ == '__main__':
