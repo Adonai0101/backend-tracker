@@ -96,8 +96,6 @@ def edit_item(uid,id_item,cuenta):
     try:
         test = float(data['dinero'])
 
-
-
         mongo.db.tracker.update_one({
             
             "$and" : [
@@ -124,3 +122,45 @@ def edit_item(uid,id_item,cuenta):
     #obteniemdo los valores de la db
     resp = cantidades(uid,cuenta)
     return resp
+
+#regresa toda la bata para la grafica
+@dinero.route('/grafica',methods = ['POST'])
+def grafica():
+    uid = request.json['uid']
+    tipo = request.json['tipoRegistro']
+
+    data = {}
+    catego = []
+    valor = []
+    total = 0
+    resp = mongo.db.tracker.find({
+    "$and" : [
+                {
+                    'uid' : uid
+                },
+
+                {
+                    'tipo':tipo
+                }
+            ]
+    })
+
+    for i in resp:
+        categoria = i['categoria']
+        dinero = i['dinero']
+        if not categoria in data:
+            data[categoria] = dinero
+        else:
+            data[categoria] = data[categoria] + dinero
+
+
+    for x in data:
+        catego.append(x)
+        valor.append(data[x])
+        total = total + float(data[x])
+
+    return jsonify({
+        'categoria':catego,
+        'valor':valor,
+        'total':total
+    })
