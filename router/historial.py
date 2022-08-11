@@ -30,3 +30,17 @@ def delete_historial(uid):
     
     data = get_historial(uid)
     return jsonify({'data':data})
+
+
+@historial.route('/item/<id>')
+def get_itemHistorial(id):
+    resp = mongo.db.historial.find_one({'_id':ObjectId(id)})
+    print(resp)
+    return jsonify({
+        'total':resp['total'],
+        'ingresoTotal':resp['ingreso_total'],
+        'gastoTotal':resp['gasto_total'],
+        'gastos':resp['gastos'],
+        'ingresos':resp['ingresos'],
+        'fecha':resp['nombre'],
+    })
